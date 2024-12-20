@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ตรวจสอบความดันโลหิต</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f2f2f2;
+        }
+        h2 {
+            color: #333;
+        }
+        label {
+            font-size: 1.1em;
+            margin: 10px 0;
+            display: inline-block;
+        }
+        input[type="number"] {
+            padding: 8px;
+            font-size: 1em;
+            margin: 5px 0 20px 0;
+            width: 200px;
+            display: inline-block;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            font-size: 1.2em;
+            color: #d9534f;
+            margin-top: 20px;
+        }
+        .normal {
+            color: green;
+        }
+        .warning {
+            color: orange;
+        }
+        .danger {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>กรุณากรอกค่าความดันโลหิต</h2>
+    <form id="bpForm">
+        <label for="systolic">ค่าความดันโลหิตตัวบน (Systolic): </label>
+        <input type="number" id="systolic" required>
+        <br>
+        <label for="diastolic">ค่าความดันโลหิตตัวล่าง (Diastolic): </label>
+        <input type="number" id="diastolic" required>
+        <br><br>
+        <button type="button" onclick="checkBloodPressure()">ตรวจสอบ</button>
+    </form>
+
+    <p id="result" class="result"></p>
+
+    <script>
+        function checkBloodPressure() {
+            var systolic = document.getElementById('systolic').value;
+            var diastolic = document.getElementById('diastolic').value;
+            var resultText = '';
+            var resultClass = '';
+
+            if (systolic < 120 && diastolic < 80) {
+                resultText = "ความดันโลหิตปกติ";
+                resultClass = "normal";
+            } else if (systolic >= 120 && systolic < 130 && diastolic < 80) {
+                resultText = "ความดันโลหิตปกติค่อนข้างสูง (ขั้นต้น)";
+                resultClass = "warning";
+            } else if ((systolic >= 130 && systolic < 140) || (diastolic >= 80 && diastolic < 90)) {
+                resultText = "ความดันโลหิตสูง (ขั้นที่ 1) ควรพบแพทย์";
+                resultClass = "warning";
+            } else if (systolic >= 140 || diastolic >= 90) {
+                resultText = "ความดันโลหิตสูง (ขั้นที่ 2)";
+                resultClass = "danger";
+            } else if (systolic > 180 || diastolic > 120) {
+                resultText = "ภาวะความดันโลหิตสูงในภาวะวิกฤต! ควรไปพบแพทย์ทันที";
+                resultClass = "danger";
+            } else {
+                resultText = "ข้อมูลไม่ถูกต้อง";
+                resultClass = "danger";
+            }
+
+            // แสดงผลการตรวจสอบ
+            var resultElement = document.getElementById('result');
+            resultElement.innerText = resultText;
+            resultElement.className = 'result ' + resultClass;
+        }
+    </script>
+
+</body>
+</html>
